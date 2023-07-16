@@ -6,6 +6,7 @@ import RecipeComponent from './components/RecipeComponent';
 import axios from 'axios';
 import bg from './middle.jpg';
 import sideimg from './vegan-food.png';
+import searchicon from './search.png';
 
 const Container = styled.div`
 display:flex;
@@ -71,7 +72,7 @@ function App() {
 <Container>
       <Header>
         <AppNameComp><AppIcon src={sideimg} /> Recipe search app</AppNameComp>
-        <SearchComp><SearchIcon src='/search-icon.svg' /><SearchInput placeholder="Search Recipe" onChange={onTextChange} /></SearchComp>
+        <SearchComp><SearchIcon src={searchicon} /><SearchInput placeholder="Search Recipe" onChange={onTextChange} /></SearchComp>
       </Header>
       
         <RecipeListContainer>

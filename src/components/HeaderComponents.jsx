@@ -12,7 +12,7 @@ flex-direction:row;
 background-color:white;
 padding:10px;
 border-radius:6px;
-width:50%;
+width:45%;
 `;
 export const AppIcon=styled.img`
 width:50px;;
