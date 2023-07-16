@@ -1,24 +1,88 @@
-import logo from './logo.svg';
-import './App.css';
+import styled from 'styled-components';
+import React from 'react';
+import { useState } from 'react';
+import { AppNameComp, SearchComp, AppIcon, SearchInput, SearchIcon } from './components/HeaderComponents';
+import RecipeComponent from './components/RecipeComponent';
+import axios from 'axios';
+import bg from './middle.jpg';
+import sideimg from './vegan-food.png';
+
+const Container = styled.div`
+display:flex;
+flex-direction:column;
+
+
+`;
+const Header = styled.div`
+color:white;
+background-color:blue;
+display:flex;
+flex-direction:row;
+padding:1.25rem;
+font-size:150%;
+font-weight:bold;
+box-shadow:0 3px 6px 0 #555;
+align-items:center;
+justify-content:space-between;
+height:5rem;
+
+`;
+const RecipeListContainer = styled.div`
+display:flex;
+flex-direction: row;
+flex-wrap:wrap;
+gap:20px;
+padding:30px;
+justify-content: space-evenly;
+`;
+const IdleImg=styled.img`
+width:35%;
+height:35%;
+margin-left:5%;
+opacity:50%;
+`;
+
+const APPLICATION_ID = '3a3eecd0';
+const APPLICATION_KEY = 'ba361fff3c5396ed14d488edeb167a93';
 
 function App() {
+  const [timeoutId, newtimeoutId] = useState();
+  const [recipeList, updateRecipeList] = useState([]);
+
+
+
+  const fetchRecipe = async (query) => {
+    const response = await axios.get(
+      `https://api.edamam.com/api/recipes/v2?type=public&q=${query}&app_id=${APPLICATION_ID}&app_key=${APPLICATION_KEY}`
+    );
+    updateRecipeList(response.data.hits);
+  };
+
+  const onTextChange = (event) => {
+    clearTimeout(timeoutId);
+    const timeout = setTimeout(() => fetchRecipe(event.target.value), 500);
+    newtimeoutId(timeout);
+  }//debouncing concept
+
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+
+<Container>
+      <Header>
+        <AppNameComp><AppIcon src={sideimg} /> Recipe search app</AppNameComp>
+        <SearchComp><SearchIcon src='/search-icon.svg' /><SearchInput placeholder="Search Recipe" onChange={onTextChange} /></SearchComp>
+      </Header>
+      
+        <RecipeListContainer>
+
+          {recipeList.length ? recipeList.map((recipeObj) => (<RecipeComponent recipeObj={recipeObj.recipe} />)):
+          <IdleImg src={bg}></IdleImg>
+          }
+
+        </RecipeListContainer>
+      </Container>
+
   );
 }
 
