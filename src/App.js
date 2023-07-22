@@ -71,7 +71,7 @@ function App() {
 
 <Container>
       <Header>
-        <AppNameComp><AppIcon src={sideimg} /> Recipe search app</AppNameComp>
+        <AppNameComp><AppIcon src={sideimg} /> Taste Explorer</AppNameComp>
         <SearchComp><SearchIcon src={searchicon} /><SearchInput placeholder="Search Recipe" onChange={onTextChange} /></SearchComp>
       </Header>
       
